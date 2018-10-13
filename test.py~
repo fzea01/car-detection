@@ -6,7 +6,7 @@ import time
 import datetime
 import glob
 
-
+print "Car Detection System Setting ..."
 def draw_flow(img, flow, step=20):
     h, w = img.shape[:2]
     y, x = np.mgrid[step/2:h:step, step/2:w:step].reshape(2,-1).astype(int)
@@ -30,9 +30,17 @@ pic_num = 0
 year = datetime.date.today().strftime("%Y")
 mont = datetime.date.today().strftime("%m")
 
+if not os.path.exists('save_images/'+year+'/'+mont):
+           print "Not Found Folder Save_images ..."
+           os.makedirs('save_images/'+year+'/'+mont)
+           print "Created Folder Save_images  Success ..."
+
 # Take the first frame and convert it to gray
 ret, frame1 = cap.read()
 prvs = cv2.cvtColor(frame1,cv2.COLOR_BGR2GRAY)
+
+print "Status Ready ..."
+print "System Start ..."
 
 #read until video is completed
 while True:
@@ -54,12 +62,12 @@ while True:
 
   
     #save image     
-    if not os.path.exists('save_image/'+year+'/'+mont):
-           os.makedirs('save_image/'+year+'/'+mont)
+    #if not os.path.exists('save_image/'+year+'/'+mont):
+    #       os.makedirs('save_image/'+year+'/'+mont)
     if cars is not None:
 		print " Detec found " + "  " + str(pic_num)
                 crop_img = car2[y: y + h, x: x + w] 
-                cv2.imwrite("save_image/'+year+'/'+mont/" +str(pic_num)+" - " +datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+".jpg",crop_img) 
+                cv2.imwrite("save_images/"+year+"/"+mont+"/"+str(pic_num)+" - " +datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+".jpg",crop_img) 
     print str(pic_num) + "  "+"Save Success"+" "+datetime.datetime.now().strftime("%y/%m/%d - %H.%M.%S") +"\n"
     pic_num += 1
 
